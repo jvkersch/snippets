@@ -1,0 +1,68 @@
+/************************************** Q1 ***********************************/
+
+// Matrix definition. Only the members needed for the assignment are specified.
+class Matrix 
+{
+public:
+    // Initialize a matrix with given number of rows and columns
+    Matrix(size_t rows, size_t cols);
+    
+    double operator()(size_t, size_t) const;
+    const double& operator()(size_t, size_t);
+};
+
+
+Matrix transpose(const Matrix& m) 
+{
+    // Initialize an empty matrix.
+    size_t rows = m.getRows(), cols = m.getCols();
+    Matrix newmat(cols, rows);
+
+    for (size_t i = 0; i < rows; i++) {
+        for (size_t j = 0; j < cols; j++) {
+            // operator() has been overloaded to allow element access.
+            newmat(j, i) = m(i, j);
+        }
+    }
+}
+
+/************************************** Q2 ***********************************/
+
+#include <algorithm>
+#include <string>
+
+std::string reverse(std::string s)
+{
+    // copy by value to have scratch space.
+    std::reverse(s.begin(), s.end());
+    return s;
+}
+
+/************************************** Q3 ***********************************/
+
+#include <string>
+#include <sstream>
+
+
+std::string reverse_and_replace(const std::string& s)
+{
+    stringstream stream;
+    for (auto ch = s.rbegin(); ch != s.rend(); ++ch) {
+        switch (ch) {
+        case 'A':
+            stream << 'T';
+            break;
+        case 'T':
+            stream << 'A';
+            break;
+        case 'C':
+            stream << 'G';
+            break;
+        case 'G':
+            stream << 'C';
+            break;
+        }
+    }
+    return stream.str();
+}
+
