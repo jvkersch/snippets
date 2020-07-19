@@ -1,7 +1,7 @@
 import React from 'react';
 
 const pokerButton = (props) => {
-    return <button onclick={props.onClick}>
+    return <button onClick={props.onClick}>
         {props.score}
     </button>
 }

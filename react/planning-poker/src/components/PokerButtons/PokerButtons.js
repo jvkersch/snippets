@@ -14,7 +14,8 @@ class PokerButtons extends Component {
 
     render() {
         const buttons = this.state.scores.map(
-            score => <PokerButton
+            (score, index) => <PokerButton
+                key={index}
                 score={score}
                 onClick={() => this.scoreSubmitted(score)} />
         );

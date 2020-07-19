@@ -1,0 +1,86 @@
+<script>
+  var stdin_data = "";
+  var stdin_i = 0;
+
+  var stdoutBuffer = "";
+  var stderrBuffer = "";
+  
+  var Module = {
+
+      preRun:  function() {
+          function stdin() {
+              // Return ASCII code of character, or null if no input
+              if (stdin_i < stdin_data.length) {
+                  var code = stdin_data.charCodeAt(stdin_i);
+                  console.log("post", code);
+                  ++stdin_i;
+                  return code;
+              } else {
+                  return null;
+              }
+          }
+          
+
+          function stdout(code) {
+              console.log("here stdout", code);
+              stdoutBuffer += String.fromCharCode(code);
+              updateStdout();
+          }
+
+          function stderr(code) {
+              console.log("here stderr", code);
+              stderrBuffer += String.fromCharCode(code);
+              updateStderr();
+          }
+          
+          FS.init(stdin, stdout, null);
+      }
+  };
+</script>
+
+<script src="echo.js"></script>
+<script>
+var js_wrapped_echo = Module.cwrap("do_one", "number", [null]);
+
+function pressBtn(){
+    console.log("running:", js_wrapped_echo());
+}
+
+
+  function getInput() {
+      var data = document.getElementById('input').value;
+      console.log(data);
+
+      stdin_data = data;
+      stdin_i = 0;
+      
+      js_wrapped_echo();
+  }
+
+  function updateStdout() {
+      document.getElementById('stdout').value = stdoutBuffer;
+  }
+
+  function updateStderr() {
+      document.getElementById('stderr').value = stderrBuffer;
+  }
+
+    
+  
+</script>
+
+
+<form>
+  <input type="text" id="input">
+</form>
+
+<button onclick="getInput()">Submit</button>
+
+<div>
+<textarea id="stdout" rows="10" cols="50">
+</textarea>
+
+<textarea id="stderr" rows="10" cols="50">
+</textarea>
+
+</div>
