@@ -2,11 +2,11 @@ import {
     createRenderer, createPerspectiveCamera,
     createTexturedInstance, createScene, createLighting,
     createCubeGeometry,
-} from "./cubes.js";
+} from "./cubes";
 
 import {
     rotateCubes
-} from './animation.js';
+} from './animation';
 
 const canvas = document.querySelector("#c");
 
