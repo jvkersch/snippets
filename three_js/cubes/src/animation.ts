@@ -1,11 +1,11 @@
-export function rotateCube(time, cube) {
+export function rotateCube(time: number, cube) {
     time *= 0.001;
 
     cube.rotation.x = time;
     cube.rotation.y = time;
 }
 
-export function rotateCubes(time, cubes) {
+export function rotateCubes(time: number, cubes) {
     time *= 0.001;
 
     cubes.forEach((cube, ndx) => {
