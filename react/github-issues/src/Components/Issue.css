@@ -1,0 +1,11 @@
+.issue {
+    xpadding: 5px;
+}
+
+.issue-title {
+    border-bottom: 1px solid gray;
+}
+
+.avatar {
+    border-radius: 5%;
+}
