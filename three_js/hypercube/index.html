@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Tesseract</title>
+    <style>
+        canvas {
+            display: block;
+        }
+
+        p,
+        label {
+            font: 1rem 'Fira Sans', sans-serif;
+            width: 600px;
+            line-height: 1.5;
+        }
+
+        input {
+            margin: .4rem;
+        }
+
+        .controls {
+            display: block;
+        }
+
+        .controls label {
+            vertical-align: middle;
+        }
+
+        .slider {
+            vertical-align: middle;
+        }
+    </style>
+    <script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+        </script>
+</head>
+
+<body>
+    <script src="https://threejs.org/build/three.min.js"></script>
+    <script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
+
+    <script type="module">
+        import { CubeRenderer } from "./main.js";
+
+        function hookupSlider(sliderId, outputId, payload = null) {
+            const slider = document.getElementById(sliderId);
+            const output = document.getElementById(outputId);
+
+            slider.oninput = function () {
+                const value = Number(this.value)
+                output.innerHTML = value.toFixed(2);
+                if (payload) {
+                    payload(value);
+                }
+            }
+            slider.oninput();  // Set default value
+        }
+
+        window.onload = function () {
+            const cubeRenderer = new CubeRenderer(0.15, 0.15);
+
+            const payload1 = (omega) => { cubeRenderer.omega1 = omega };
+            const payload2 = (omega) => { cubeRenderer.omega2 = omega };
+
+            hookupSlider("omega1", "omega1value", payload1);
+            hookupSlider("omega2", "omega2value", payload2);
+
+            cubeRenderer.setupScene();
+            cubeRenderer.animate();
+        };
+    </script>
+
+    <div class="controls">
+        <div>
+            <label for="omega1">Rotation speed in the \(x, y\)-plane:</label>
+            <input type="range" min="-1.0" max="1.0" value="0.15" class="slider" step="0.05" id="omega1" name="omega1">
+            <label for="omega1" id="omega1value"></label>
+        </div>
+        <div>
+            <label for="omega2">Rotation speed in the \(z, u\)-plane:</label>
+            <input type="range" min="-1.0" max="1.0" value="0.15" class="slider" step="0.05" id="omega2" name="omega2">
+            <label for="omega2" id="omega2value"></label>
+        </div>
+    </div>
+    <canvas id="c" width="600" height="300"></canvas>
+
+    <div>
+        <p>
+            The image above shows a four-dimensional hypercube undergoing a rotation. Every four-dimensional rotation
+            has two invariant planes, and this rotation fixes the \((x, y)\) and \((z, u)\) planes. As a result, the
+            full four-dimensional matrix looks like two 2D rotations stacked together:
+            \[
+                \left(
+                \begin{matrix}
+                    \cos \theta_1 & -\sin \theta_1 & 0 & 0 \\
+                    \sin \theta_1 & \cos \theta_1 & 0 & 0 \\
+                    0 & 0 & \cos \theta_2 & -\sin \theta_2 \\
+                    0 & 0 & \sin \theta_2 & \cos \theta_2
+                \end{matrix}
+                \right).
+            \]
+          </p>
+
+          <p>
+              The sliders control how quickly \(\theta_1\) and \(\theta_2\) change. When you choose \(\omega_1 = \omega_2\),
+               you get a <strong>self-dual rotation</strong> (John Baez' terminology) and both angles change at the same rate.
+               For  \(\omega_1 = - \omega_2\), you get an <strong>anti-self-dual rotation</strong>, with the two angles having
+               opposite signs.
+        </p>
+    </div>
+
+</body>
+
+</html>
